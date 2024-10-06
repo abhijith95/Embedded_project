@@ -1,3 +1,6 @@
+#ifndef __PIN__
+#define __PIN__
+
 #include <stdint.h>
 #include "memory_cal.h"
 
@@ -57,12 +60,14 @@ typedef enum
 }PIN_VALUE;
 
 /* Macros */
-#define PORTB (volatile gpio*) GPIOB
-#define PORTC (volatile gpio*) GPIOC
-#define PORTD (volatile gpio*) GPIOD
+#define PORTB (gpio*)GPIOB
+#define PORTC (gpio*)GPIOC
+#define PORTD (gpio*)GPIOD
 
 /* Function prototypes */
 
 void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config);
 PIN_VALUE Read_pin(gpio* port, uint8_t pin);
 void Write_pin(gpio* port, uint8_t pin, PIN_VALUE value);
+
+#endif

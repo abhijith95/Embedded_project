@@ -3,7 +3,8 @@
 void Delay(void)
 {
     volatile uint8_t temp;
-    for (uint32_t indx=(uint32_t)0; indx<DELAY_INDEX; indx++)
+    uint32_t indx = (uint32_t)0;
+    for (; indx<DELAY_INDEX; indx++)
     {
         temp=((uint8_t)0);
     }

@@ -1,7 +1,7 @@
 #include "utils.h"
 #include "pin.h"
 
-void main()
+int main()
 {
     /* Configure pin PB5 to output*/
     Configure_pinPort(PORTB, (uint8_t)PINB5, OUTPUT);
@@ -13,4 +13,6 @@ void main()
         Delay();
         Write_pin(PORTB, (uint8_t)PINB5, PIN_LOW);
     }
+
+    return 0;
 }

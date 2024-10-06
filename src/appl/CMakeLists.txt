@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25.0)
 
 message("Building application")
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/dummy.c "")
-add_library(APPL STATIC ${CMAKE_CURRENT_BINARY_DIR}/dummy.c)
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/appl/dummy_apl.c "")
+add_library(APPL STATIC ${CMAKE_CURRENT_BINARY_DIR}/appl/dummy_apl.c)
 
 # conditionally add application to the library
 if (${APPL_TO_BUILD} MATCHES "blinkLed")
