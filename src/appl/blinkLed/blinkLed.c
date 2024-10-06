@@ -12,6 +12,7 @@ int main()
         Write_pin(PORTB, (uint8_t)PINB5, PIN_HIGH);
         Delay();
         Write_pin(PORTB, (uint8_t)PINB5, PIN_LOW);
+        Delay();
     }
 
     return 0;
