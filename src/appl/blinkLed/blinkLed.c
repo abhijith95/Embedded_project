@@ -1,6 +1,8 @@
 #include "utils.h"
 #include "pin.h"
 
+#define LED_DELAY (uint16_t)300
+
 int main()
 {
     /* Configure pin PB5 to output*/
@@ -10,10 +12,9 @@ int main()
     while(1)
     {
         Write_pin(PORTB, (uint8_t)PINB5, PIN_HIGH);
-        Delay();
+        Delay_ms(LED_DELAY);
         Write_pin(PORTB, (uint8_t)PINB5, PIN_LOW);
-        Delay();
+        Delay_ms(LED_DELAY);
     }
-
     return 0;
 }

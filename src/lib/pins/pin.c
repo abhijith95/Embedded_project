@@ -13,7 +13,7 @@
 * @param PIN_CONFIG pin_config - Pin configuration INPUT/OUTPUT
 *
 * OUTPUT
-* None
+* @param None
 */
 void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config)
 {
@@ -29,6 +29,18 @@ void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config)
     }
 }
 
+/*
+* Function to read the pin value 
+*
+* INPUT
+* @param gpio *port     - pointer to a general purpose IO register
+                            use macros PORTB/PORTC/PORTD
+* @param uint8_t pin    - the pin number from the enum PINB/PINC/PIND
+                            typecast to uint8_t
+*
+* OUTPUT
+* @param PIN_VALUE      - Enum indicating the pin value
+*/
 PIN_VALUE Read_pin(gpio* port, uint8_t pin)
 {
     uint8_t mask = ((uint8_t) 1 << pin);
@@ -36,6 +48,19 @@ PIN_VALUE Read_pin(gpio* port, uint8_t pin)
     return (PIN_VALUE) pin_value;
 }
 
+/*
+* Function to read the pin value 
+*
+* INPUT
+* @param gpio *port     - pointer to a general purpose IO register
+                            use macros PORTB/PORTC/PORTD
+* @param uint8_t pin    - the pin number from the enum PINB/PINC/PIND
+                            typecast to uint8_t
+* @param PIN_VALUE      - Enum indicating the pin value
+* 
+* OUTPUT
+* @param None
+*/
 void Write_pin(gpio* port, uint8_t pin, PIN_VALUE value)
 {
     port->pin |= (((uint8_t) value) << pin);
