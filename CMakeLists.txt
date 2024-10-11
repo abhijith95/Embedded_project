@@ -31,10 +31,12 @@ elseif(${BUILD_TARGET} MATCHES "MCU")
     set(FINAL_EXE_FILE ${CMAKE_CURRENT_BINARY_DIR}/final_exec.elf)
     set(FINAL_TARGET_FILE ${CMAKE_CURRENT_BINARY_DIR}/final_exec.hex)
     add_executable(${OUTPUT_TARGET} ${CMAKE_CURRENT_BINARY_DIR}/dummy.c)
+    # Check https://stackoverflow.com/questions/21735624/c-application-linking-failing-with-undefined-reference-to-mulhi3
+    # for the reason to add a new library path
     set_target_properties(${OUTPUT_TARGET} PROPERTIES
                             OUTPUT_NAME ${FINAL_EXE_FILE}
                             COMPILE_FLAGS "-mmcu=atmega328p -g"
-                            LINK_FLAGS "-mmcu=atmega328p")       
+                            LINK_FLAGS "-mmcu=atmega328p -L${LINKER_LIB_LOC}")       
     target_link_libraries(${OUTPUT_TARGET} PRIVATE APPL)
 
     # convert the final executable into binary for flashing

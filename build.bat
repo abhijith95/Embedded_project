@@ -6,7 +6,8 @@ IF EXIST ".\out\"  (
     rmdir .\out /q /s
 )
 
-SET CMAKE_ARGS=-DAPPL_TO_BUILD
+SET CMAKE_ARGS=-S %~dp0 -B %~dp0\out\build -DAPPL_TO_BUILD
+
 @REM Get the application name to build
 IF [%~1] == [] (
     goto display_help
@@ -19,20 +20,25 @@ IF [%~2] == [] (
 ) ELSE IF "%~2" EQU "EMULATOR" (
     @REM Building for emulator, output will be a dll file
     SET CMAKE_ARGS=!CMAKE_ARGS! -DBUILD_TARGET=EMULATOR
-    cmake -S %~dp0 -B %~dp0\out\build !CMAKE_ARGS!
-    cmake --build %~dp0\out\build
-    goto :eof
+    goto :build_target
+
 ) ELSE IF "%~2" EQU "MCU" (
     @REM Building to flash the arduino, output will be .hex file
-    SET CMAKE_ARGS=!CMAKE_ARGS! -DBUILD_TARGET=MCU
     @REM We need to have a different build generator when cross-compiling else the compiler settings
     @REM defaults to msvc. If this happens then we cannot build binary for arduino, this is why we use -G argument
-    cmake -S %~dp0 -B %~dp0\out\build -G"MinGW Makefiles" !CMAKE_ARGS!
-    make --directory=%~dp0\out\build
-    goto :eof
+    SET CMAKE_ARGS=!CMAKE_ARGS! -DBUILD_TARGET=MCU -G"MinGW Makefiles"
+    goto :build_target
+    
 ) ELSE (
     goto :display_help
 )
+
+:build_target
+    echo Generating the build files
+    cmake !CMAKE_ARGS!
+    echo Building the target
+    cmake --build %~dp0\out\build
+    goto :eof
 
 :display_help
     echo Help for building MCU code

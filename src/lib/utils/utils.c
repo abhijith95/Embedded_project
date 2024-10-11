@@ -14,7 +14,7 @@ void Delay_ms(uint16_t delayTime_ms)
 {
     /* Set the presclaer to 1024. This means for 16MHz the clock register will overflow
         after 16ms. See Timer0 control (Section 15) for 0x5U value */
-    *((uint8_t*)TCCR0B) = 0x5U;
+    *((uint8_t*)TCCR0B) = 0x3U;
     uint16_t num_overflows = (uint16_t)0;
     uint8_t current_time = (uint8_t)0;
     uint8_t previous_time = (uint8_t)0;
@@ -34,7 +34,7 @@ void Delay_ms(uint16_t delayTime_ms)
             /* Do nothing */
         }
         /* We will stay inside the function until the timer is reached*/
-        elapsed_time = (MAXTIME*num_overflows);
+        elapsed_time = (TIME_1MS*num_overflows);
         previous_time = current_time;
     }
     /* Reset the overflow counter to start a new delay function */

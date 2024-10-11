@@ -12,6 +12,8 @@ set(CMAKE_OBJCOPY "avr-objcopy")
 set(CMAKE_SIZE "avr-size")
 set(CMAKE_STRIP "avr-strip")
 set(CMAKE_FIND_ROOT_PATH "C:\\Program Files (x86)\\WinAVR\\bin")
+set(LINKER_LIB_LOC "\"$ENV{ProgramFiles\(x86\)}\\WinAVR\\lib\\gcc\\avr\\4.3.3\"")
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # target information
 set(CMAKE_SYSTEM_NAME Generic)

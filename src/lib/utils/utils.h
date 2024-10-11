@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-#define CLK_FREQ_MHZ    (uint8_t)16
-#define MAXTIME         (uint16_t)16
-#define CLKSCALE        (uint16_t)1024
+#define CLK_FREQ_MHZ    (uint64_t)16000000
+#define CLKSCALE        (uint16_t)64
+#define TIME_1MS        (uint16_t)1
 
 void Delay_ms(uint16_t delayTime_ms);
 
