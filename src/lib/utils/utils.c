@@ -1,6 +1,12 @@
 #include "utils.h"
 #include "memory_cal.h"
 
+void Util_setup()
+{
+    /* Set the presclaer to 1024. This means for 16MHz the clock register will overflow
+        after 16ms. See Timer0 control (Section 15) for 0x5U value */
+    *((uint8_t*)TCCR0B) = 0x3U;
+}
 /*
 * Function to cause intentional delay in the microcontroller
 *
@@ -12,9 +18,6 @@
 */
 void Delay_ms(uint16_t delayTime_ms)
 {
-    /* Set the presclaer to 1024. This means for 16MHz the clock register will overflow
-        after 16ms. See Timer0 control (Section 15) for 0x5U value */
-    *((uint8_t*)TCCR0B) = 0x3U;
     uint16_t num_overflows = (uint16_t)0;
     uint8_t current_time = (uint8_t)0;
     uint8_t previous_time = (uint8_t)0;
