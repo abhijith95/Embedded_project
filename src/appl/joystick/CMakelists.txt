@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.25.0)
 
-message("Building ultrasonic")
-set(SOURCES ultrasonic.c)
-set(HEADERS ultrasonic.h)
-add_library(ultrasonic ultrasonic.c)
-set_target_properties(ultrasonic PROPERTIES FOLDER "appls/ultrasonic")
-target_include_directories(ultrasonic PRIVATE 
+message("Building joystick")
+set(SOURCES joystick.c)
+set(HEADERS joystick.h)
+add_library(joystick joystick.c)
+set_target_properties(joystick PROPERTIES FOLDER "appls/joystick")
+target_include_directories(joystick PRIVATE 
                             ${CMAKE_SOURCE_DIR}/src/lib/timer
                             ${CMAKE_SOURCE_DIR}/src/lib/eeprom
                             ${CMAKE_SOURCE_DIR}/src/lib/utils

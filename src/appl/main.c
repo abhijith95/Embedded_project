@@ -6,6 +6,9 @@
 #ifdef APPL_ULTRASONIC
     #include "ultrasonic.h"
 #endif
+#ifdef APPL_JOYSTICK
+    #include "joystick.h"
+#endif
 
 int main()
 {
@@ -18,6 +21,9 @@ int main()
     #ifdef APPL_ULTRASONIC
         ultrasonic_setup();
     #endif
+    #ifdef APPL_JOYSTICK
+        joystick_setup();
+    #endif
 
     /* Start the main loop */
     while(1U)
@@ -27,6 +33,9 @@ int main()
         #endif
         #ifdef APPL_ULTRASONIC
             ultrasonic_main();
+        #endif
+        #ifdef APPL_JOYSTICK
+            joystick_main();
         #endif
     }
     return 1;

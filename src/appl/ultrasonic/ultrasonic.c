@@ -1,6 +1,7 @@
 #include "ultrasonic.h"
 #include "timer.h"
 #include "pin.h"
+#include "utils.h"
 
 #define DIST_THRSH      (uint16_t)20
 #define TRIG_DELAY_US   (uint32_t)12
@@ -21,14 +22,6 @@ void ultrasonic_setup()
     Configure_pinPort(PORTD, (uint8_t)PIND2, OUTPUT);
     /* Configure PB1 as the echo input from the sensor */
     Configure_pinPort(PORTB, (uint8_t)PINB0, INPUT);
-}
-
-void blink_led(uint32_t delay)
-{
-    Write_pin(PORTB, (uint8_t)PINB5, PIN_HIGH);
-    Delay_ms(delay);
-    Write_pin(PORTB, (uint8_t)PINB5, PIN_LOW);
-    Delay_ms(delay);
 }
 
 void ultrasonic_main()
@@ -65,7 +58,7 @@ void ultrasonic_main()
             if(time <= TIME_NO_OBJ_US)
             {
                 /* We have detected something so light up the LED */
-                blink_led(1000U);
+                Blink_onboard_led(1000U);
                 
             }
             else
@@ -73,7 +66,7 @@ void ultrasonic_main()
                 Write_pin(PORTB, (uint8_t)PINB5, PIN_LOW);
             }
             state = SEND_TRIG;
-            blink_led(200U);
+            Blink_onboard_led(200U);
             break;
 
         default:
