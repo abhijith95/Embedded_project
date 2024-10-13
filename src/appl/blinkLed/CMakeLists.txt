@@ -6,6 +6,6 @@ set(HEADERS blinkLed.h)
 add_library(blinkLed blinkLed.c)
 set_target_properties(blinkLed PROPERTIES FOLDER "appls/blinkLed")
 target_include_directories(blinkLed PRIVATE 
-                            ${CMAKE_SOURCE_DIR}/src/lib/utils
+                            ${CMAKE_SOURCE_DIR}/src/lib/timer
                             ${CMAKE_SOURCE_DIR}/src/lib/eeprom
                             ${CMAKE_SOURCE_DIR}/src/lib/pins)

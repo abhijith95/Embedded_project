@@ -1,9 +1,9 @@
 #include "blinkLed.h"
-#include "utils.h"
+#include "timer.h"
 #include "pin.h"
 #include "eeprom.h"
 
-#define LED_DELAY (uint16_t)1000
+#define LED_DELAY (uint32_t)300000
 
 void blinkLed_setup()
 {
@@ -14,7 +14,7 @@ void blinkLed_setup()
 void blinkLed_main()
 {
     Write_pin(PORTB, (uint8_t)PINB5, PIN_HIGH);
-    Delay_ms(LED_DELAY);
+    Delay_us(LED_DELAY);
     Write_pin(PORTB, (uint8_t)PINB5, PIN_LOW);
-    Delay_ms(LED_DELAY);
+    Delay_us(LED_DELAY);
 }

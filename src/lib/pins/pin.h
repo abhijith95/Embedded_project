@@ -2,7 +2,11 @@
 #define __PIN__
 
 #include <stdint.h>
-#include "memory_cal.h"
+
+/* Defining registers for general purpose IO */
+#define GPIOB (0x23U)
+#define GPIOC (0x26U)
+#define GPIOD (0x29U)
 
 /* Data types */
 typedef struct 

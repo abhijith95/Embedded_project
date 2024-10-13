@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "timer.h"
 /* Conditionally include the applciation headers */
 #ifdef APPL_BLINKLED
     #include "blinkLed.h"
@@ -7,7 +7,7 @@
 int main()
 {
     /* Perform all the setups here */
-    Util_setup();
+    Configure_timers(PRESCALE_64);
     /* Conditionally run all the application setup functions */
     #ifdef APPL_BLINKLED
         blinkLed_setup();
