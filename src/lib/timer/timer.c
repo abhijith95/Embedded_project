@@ -4,7 +4,8 @@
 uint8_t timerPerTick_us = (uint8_t)0;
 
 /*
-* Function to configure the timer register
+* Function to configure the timer register. Timer0 shall always be configured to 
+* perform a general delay operation in the application.
 *
 * INPUT
 * @param clock_prescale prescale - Reduce the timer frequency by the scale
@@ -28,13 +29,13 @@ void Configure_timers(clock_prescale prescale)
             timerPerTick_us = (uint8_t)0.5;
             break;
         case PRESCALE_64:
-            timerPerTick_us = (uint8_t)4;
+            timerPerTick_us = (uint8_t)2;
             break;
         case PRESCALE_256:
-            timerPerTick_us = (uint8_t)16;
+            timerPerTick_us = (uint8_t)8;
             break;
         case PRESCALE_1024:
-            timerPerTick_us = (uint8_t)64;
+            timerPerTick_us = (uint8_t)32;
             break;
         case DISABLE_COUNT:
         default:
@@ -43,6 +44,15 @@ void Configure_timers(clock_prescale prescale)
     }
 }
 
+/*
+* Function to delay for a given microseconds.
+*
+* INPUT
+* @param uint32_t delay_us - Delay value in microseconds
+*
+* OUTPUT
+* @param None
+*/
 void Delay_us(uint32_t delay_us)
 {
     timer_registers* timer0 = TIMER0;
@@ -72,4 +82,18 @@ void Delay_us(uint32_t delay_us)
         /* Wait for the timer to finish */
     }
     timer0->tcnt = 0;
+}
+
+/*
+* Function to delay for a given millisecond.
+*
+* INPUT
+* @param uint32_t delay_ms - Delay value in millisecond
+*
+* OUTPUT
+* @param None
+*/
+void Delay_ms(uint32_t delay_ms)
+{
+    Delay_us(delay_ms*1000U);
 }

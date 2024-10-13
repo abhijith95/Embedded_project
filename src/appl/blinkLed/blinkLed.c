@@ -3,7 +3,7 @@
 #include "pin.h"
 #include "eeprom.h"
 
-#define LED_DELAY (uint32_t)300000
+#define LED_DELAY (uint32_t)1000
 
 void blinkLed_setup()
 {
@@ -14,7 +14,7 @@ void blinkLed_setup()
 void blinkLed_main()
 {
     Write_pin(PORTB, (uint8_t)PINB5, PIN_HIGH);
-    Delay_us(LED_DELAY);
+    Delay_ms(LED_DELAY);
     Write_pin(PORTB, (uint8_t)PINB5, PIN_LOW);
-    Delay_us(LED_DELAY);
+    Delay_ms(LED_DELAY);
 }

@@ -7,7 +7,6 @@
 
 /* Timer registers */
 #define TIMER0  (timer_registers*)(0x44)
-#define TIMER1  (timer_registers*)(0x80)
 #define TIMER2  (timer_registers*)(0xB0)
 /* Timer interrupt registers */
 #define TIFR0 (uint8_t*)0x35
@@ -34,5 +33,6 @@ typedef enum
 
 void Configure_timers(clock_prescale prescale);
 void Delay_us(uint32_t delay_us);
+void Delay_ms(uint32_t delay_ms);
 
 #endif
