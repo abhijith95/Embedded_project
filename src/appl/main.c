@@ -3,6 +3,9 @@
 #ifdef APPL_BLINKLED
     #include "blinkLed.h"
 #endif
+#ifdef APPL_ULTRASONIC
+    #include "ultrasonic.h"
+#endif
 
 int main()
 {
@@ -12,12 +15,18 @@ int main()
     #ifdef APPL_BLINKLED
         blinkLed_setup();
     #endif
+    #ifdef APPL_ULTRASONIC
+        ultrasonic_setup();
+    #endif
 
     /* Start the main loop */
     while(1U)
     {
         #ifdef APPL_BLINKLED
             blinkLed_main();
+        #endif
+        #ifdef APPL_ULTRASONIC
+            ultrasonic_main();
         #endif
     }
     return 1;

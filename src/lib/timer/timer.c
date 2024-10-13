@@ -1,7 +1,10 @@
 #include <stdint.h>
 #include "timer.h"
 
+#define TOTAL_REG_TICKS 256U
 uint8_t timerPerTick_us = (uint8_t)0;
+uint32_t overflow_ticks = (uint32_t)0;
+timer_registers* timer0 = TIMER0;
 
 /*
 * Function to configure the timer register. Timer0 shall always be configured to 
@@ -55,13 +58,12 @@ void Configure_timers(clock_prescale prescale)
 */
 void Delay_us(uint32_t delay_us)
 {
-    timer_registers* timer0 = TIMER0;
     /* Divide the delay into number of overflows and ticks*/
-    uint32_t total_overflow = (uint32_t)((delay_us/timerPerTick_us)/256);
-    uint8_t total_remainder_ticks = (uint8_t)((delay_us/timerPerTick_us)%256);
+    uint32_t total_overflow = (uint32_t)((delay_us/timerPerTick_us)/TOTAL_REG_TICKS);
+    uint8_t total_remainder_ticks = (uint8_t)((delay_us/timerPerTick_us)%TOTAL_REG_TICKS);
     /* Reset the register to start the delay */
     timer0->tcnt = 0;
-    uint32_t overflow_ticks = (uint32_t)0;
+    overflow_ticks = (uint32_t)0;
     while(overflow_ticks < total_overflow)
     {
         /* Increment overflow ticks */
@@ -96,4 +98,33 @@ void Delay_us(uint32_t delay_us)
 void Delay_ms(uint32_t delay_ms)
 {
     Delay_us(delay_ms*1000U);
+}
+
+/*
+* Function to rest the timer register and overflow counter to zero
+*
+* INPUT
+* @param None
+*
+* OUTPUT
+* @param None
+*/
+void Reset_timer()
+{
+    timer0->tcnt = 0;
+    overflow_ticks = (uint32_t)0;
+}
+
+/*
+* Function that calculates time in us since last reset
+*
+* INPUT
+* @param None
+*
+* OUTPUT
+* @param uint32_t* time - Pointer to return the value
+*/
+void Get_time_us(uint32_t* time)
+{
+    *time = ((overflow_ticks*TOTAL_REG_TICKS) + (uint32_t)timer0->tcnt)*timerPerTick_us;
 }

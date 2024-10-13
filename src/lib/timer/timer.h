@@ -34,5 +34,7 @@ typedef enum
 void Configure_timers(clock_prescale prescale);
 void Delay_us(uint32_t delay_us);
 void Delay_ms(uint32_t delay_ms);
+void Reset_timer(void);
+void Get_time_us(uint32_t* time);
 
 #endif

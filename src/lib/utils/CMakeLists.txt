@@ -1,7 +1,0 @@
-cmake_minimum_required(VERSION 3.25.0)
-
-message("Building UTILS")
-set(SOURCES utils.c)
-set(HEADERS utils.h)
-add_library(UTILS STATIC utils.c)
-set_target_properties(UTILS PROPERTIES FOLDER "lib/utils")
