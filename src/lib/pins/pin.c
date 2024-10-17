@@ -64,3 +64,18 @@ void Write_pin(gpio* port, uint8_t pin, PIN_VALUE value)
 {
     port->pin |= (((uint8_t) value) << pin);
 }
+
+/*
+* Function to configure the reference voltage source for analog pins
+*
+* INPUT
+* @param ANALOG_VREFS vref_source   - reference voltage source
+* @param PINC                       - pins to configure as analog input
+* 
+* OUTPUT
+* @param None
+*/
+void Configure_analogPins(ANALOG_VREFS vref_source, PINC pin)
+{
+    *ADMUX |= ((uint8_t)vref_source << 6) | ((uint8_t)pin << 0);
+}

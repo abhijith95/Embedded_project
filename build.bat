@@ -28,15 +28,13 @@ IF [%~2] == [] (
 IF [%~1] == [] (
     goto :display_help
 ) ELSE (
-    echo Application to build: %~1
     SET CMAKE_ARGS=!CMAKE_ARGS!=%~1
-    goto :build_target
 )
 
 @REM Cleaning the out folder
-IF EXIST ".\out\!BUILD_DIR!"  (
+IF EXIST "!BUILD_DIR!"  (
     echo Deleting the out folder for a clean build
-    rmdir .\out /q /s
+    rmdir "!BUILD_DIR!" /q /s
 )
 
 :build_target
@@ -52,3 +50,4 @@ IF EXIST ".\out\!BUILD_DIR!"  (
     echo The first argument will be the application that is being built. Give the folder name of the application
     echo The second argument shall be to specify the build target, EMULATOR or MCU. Use the exact same name as defined in the help
     goto :eof
+    

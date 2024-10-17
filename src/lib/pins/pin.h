@@ -7,8 +7,18 @@
 #define GPIOB (0x23U)
 #define GPIOC (0x26U)
 #define GPIOD (0x29U)
+#define ADMUX ((uint8_t*)0x7C)
 
+/* Macros */
+#define PORTB (gpio*)GPIOB
+#define PORTC (gpio*)GPIOC
+#define PORTD (gpio*)GPIOD
+
+/************************************************/
 /* Data types */
+/************************************************/
+
+/* Data type representing the required registers to handle the port pins */
 typedef struct 
 {
     volatile uint8_t pin;
@@ -16,6 +26,7 @@ typedef struct
     volatile uint8_t port;
 }gpio;
 
+/* List of available pins on PORT B */
 typedef enum
 {
     PINB0 = 0,
@@ -28,6 +39,7 @@ typedef enum
     PINB7
 } PINB;
 
+/* List of available pins on PORT C */
 typedef enum
 {
     PINC0 = 0,
@@ -39,6 +51,7 @@ typedef enum
     PINC6
 } PINC;
 
+/* List of available pins on PORT D */
 typedef enum
 {
     PIND0 = 0,
@@ -51,27 +64,33 @@ typedef enum
     PIND7
 } PIND;
 
+/* Enum describing the pin type */
 typedef enum
 {
     INPUT = 0,
     OUTPUT
 }PIN_CONFIG;
 
+/* Enum describing the digital pin value*/
 typedef enum
 {
     PIN_LOW = 0,
     PIN_HIGH
 }PIN_VALUE;
 
-/* Macros */
-#define PORTB (gpio*)GPIOB
-#define PORTC (gpio*)GPIOC
-#define PORTD (gpio*)GPIOD
+/* Reference voltage source for analog pins */
+typedef enum
+{
+    EXTERNAL_REF = 0,
+    AVCC = 1,
+    INTERNAL_11V = 3
+}ANALOG_VREFS;
 
 /* Function prototypes */
 
 void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config);
 PIN_VALUE Read_pin(gpio* port, uint8_t pin);
 void Write_pin(gpio* port, uint8_t pin, PIN_VALUE value);
+void Configure_analogPins(ANALOG_VREFS vref_source, PINC pin);
 
 #endif
