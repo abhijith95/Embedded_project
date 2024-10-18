@@ -1,26 +1,11 @@
 #ifndef __TIMER__
 #define __TIMER__
 #include <stdint.h>
+#include "../memory/registers.h"
 
-/* Timer constants */
-#define FCPU_HZ  (uint64_t)16000000
-
-/* Timer registers */
-#define TIMER0  (timer_registers*)(0x44)
-#define TIMER2  (timer_registers*)(0xB0)
-/* Timer interrupt registers */
-#define TIFR0 (uint8_t*)0x35
-
-/*Datatype to hold the timer registers */
-typedef struct 
-{
-    volatile uint8_t tccra;
-    volatile uint8_t tccrb;
-    volatile uint8_t tcnt;
-    volatile uint8_t ocra;
-    volatile uint8_t ocrb;
-} timer_registers;
-
+/************************************************/
+/* Data types */
+/************************************************/
 typedef enum
 {
     DISABLE_COUNT = 0,

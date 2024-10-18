@@ -17,6 +17,9 @@ endif()
 # create directory to put in the final target file
 file(MAKE_DIRECTORY ${FINAL_TRGT_DIR})
 
+# trigger the memory map
+add_subdirectory(${CMAKE_SOURCE_DIR}/tools/emulator/memory)
+
 # trigger the compilation of the application and library
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/lib)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/appl)

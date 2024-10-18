@@ -2,29 +2,11 @@
 #define __PIN__
 
 #include <stdint.h>
-
-/* Defining registers for general purpose IO */
-#define GPIOB (0x23U)
-#define GPIOC (0x26U)
-#define GPIOD (0x29U)
-#define ADMUX ((uint8_t*)0x7C)
-
-/* Macros */
-#define PORTB (gpio*)GPIOB
-#define PORTC (gpio*)GPIOC
-#define PORTD (gpio*)GPIOD
+#include "../memory/registers.h"
 
 /************************************************/
 /* Data types */
 /************************************************/
-
-/* Data type representing the required registers to handle the port pins */
-typedef struct 
-{
-    volatile uint8_t pin;
-    volatile uint8_t ddr;
-    volatile uint8_t port;
-}gpio;
 
 /* List of available pins on PORT B */
 typedef enum

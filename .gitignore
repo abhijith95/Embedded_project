@@ -2,3 +2,4 @@ vsCode_workspace.code-workspace
 out/
 .vscode/
 eeprom.hex
+src/lib/memory/registers.h

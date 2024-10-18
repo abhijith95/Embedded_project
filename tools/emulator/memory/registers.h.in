@@ -1,0 +1,52 @@
+#ifndef __REGISTERS_H__
+#define __REGISTERS_H__
+
+#include <stdint.h>
+
+/***************************************/
+/* EEPROM memory registers */
+/***************************************/
+#define EEAR    ${EEAR} /* Register containing the memory address to be read or write   */
+#define EEDR    ${EEDR} /* Register containing the data to be read or written           */
+#define EECR    ${EECR} /* Register to indicate reading or writing operation to eeprom  */
+
+/***************************************/
+/* Timer registers */
+/***************************************/
+#define FCPU_HZ (uint64_t)16000000
+#define TIMER0  ${TIMER0}
+#define TIMER2  ${TIMER2}
+#define TIFR0   ${TIFR0}
+#define TIFR1   ${TIFR1}
+#define TIFR2   ${TIFR2}
+
+/***************************************/
+/* Defining registers for general purpose IO */
+/***************************************/
+#define PORTB ${PORTB}
+#define PORTC ${PORTC}
+#define PORTD ${PORTD}
+#define ADMUX ${ADMUX}
+
+/************************************************/
+/* Data types */
+/************************************************/
+/* Data type representing the required registers to handle the port pins */
+typedef struct 
+{
+    volatile uint8_t pin;
+    volatile uint8_t ddr;
+    volatile uint8_t port;
+}gpio;
+
+/*Datatype to hold the timer registers */
+typedef struct 
+{
+    volatile uint8_t tccra;
+    volatile uint8_t tccrb;
+    volatile uint8_t tcnt;
+    volatile uint8_t ocra;
+    volatile uint8_t ocrb;
+} timer_registers;
+
+#endif
