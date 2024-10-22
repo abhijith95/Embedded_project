@@ -1,7 +1,7 @@
 #ifndef __TIMER__
 #define __TIMER__
 #include <stdint.h>
-#include "../memory/registers.h"
+#include "registers.h"
 
 /************************************************/
 /* Data types */

@@ -5,8 +5,4 @@ set(SOURCES joystick.c)
 set(HEADERS joystick.h)
 add_library(joystick joystick.c)
 set_target_properties(joystick PROPERTIES FOLDER "appls/joystick")
-target_include_directories(joystick PRIVATE 
-                            ${CMAKE_SOURCE_DIR}/src/lib/timer
-                            ${CMAKE_SOURCE_DIR}/src/lib/eeprom
-                            ${CMAKE_SOURCE_DIR}/src/lib/utils
-                            ${CMAKE_SOURCE_DIR}/src/lib/pins)
+target_include_directories(joystick PRIVATE ${CMAKE_SOURCE_DIR}/src/include)

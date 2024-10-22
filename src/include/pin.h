@@ -2,7 +2,7 @@
 #define __PIN__
 
 #include <stdint.h>
-#include "../memory/registers.h"
+#include "registers.h"
 
 /************************************************/
 /* Data types */

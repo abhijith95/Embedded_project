@@ -2,7 +2,7 @@
 #define __EEPROM__
 
 #include <stdint.h>
-#include "../memory/registers.h"
+#include "registers.h"
 
 #define EEMPE   (uint8_t)2
 #define EEPE    (uint8_t)1 

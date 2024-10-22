@@ -20,4 +20,4 @@ elseif(${BUILD_TARGET} MATCHES "MCU")
 
 endif()
 
-configure_file(registers.h.in "${CMAKE_SOURCE_DIR}/src/lib/memory/registers.h")
+configure_file(registers.h.in "${CMAKE_SOURCE_DIR}/src/include/registers.h")

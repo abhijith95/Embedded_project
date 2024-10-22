@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25.0)
 
 message("Building application")
 add_library(APPL STATIC main.c)
-target_include_directories(APPL PRIVATE ${CMAKE_SOURCE_DIR}/src/lib/timer)
+target_include_directories(APPL PRIVATE ${CMAKE_SOURCE_DIR}/src/include)
 
 # build the application based on the user input
 string(TOLOWER ${APPL_TO_BUILD} DIR_NAME)
