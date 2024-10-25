@@ -4,7 +4,7 @@
 #define TOTAL_REG_TICKS 256U
 uint8_t timerPerTick_us = (uint8_t)0;
 uint32_t overflow_ticks = (uint32_t)0;
-timer_registers* timer0 = TIMER0;
+timer_registers* timer0_reg = TIMER0;
 
 /*
 * Function to configure the timer register. Timer0 shall always be configured to 
@@ -19,9 +19,9 @@ timer_registers* timer0 = TIMER0;
 void Configure_timers(clock_prescale prescale)
 {
     *TIFR0 = 0;
-    timer_registers* timer0 = TIMER0;
-    timer0->tccrb = (uint8_t)prescale;
-    timer0->tccra = 0x0;
+    // timer_registers* timer0 = TIMER0;
+    timer0_reg->tccrb = (uint8_t)prescale;
+    timer0_reg->tccra = 0x0;
 
     switch(prescale)
     {
@@ -62,7 +62,7 @@ void Delay_us(uint32_t delay_us)
     uint32_t total_overflow = (uint32_t)((delay_us/timerPerTick_us)/TOTAL_REG_TICKS);
     uint8_t total_remainder_ticks = (uint8_t)((delay_us/timerPerTick_us)%TOTAL_REG_TICKS);
     /* Reset the register to start the delay */
-    timer0->tcnt = 0;
+    timer0_reg->tcnt = 0;
     overflow_ticks = (uint32_t)0;
     while(overflow_ticks < total_overflow)
     {
@@ -78,12 +78,12 @@ void Delay_us(uint32_t delay_us)
         }
     }
     /* Tick rest of the remaining counters */
-    timer0->tcnt = 0;
-    while(timer0->tcnt < total_remainder_ticks)
+    timer0_reg->tcnt = 0;
+    while(timer0_reg->tcnt < total_remainder_ticks)
     {
         /* Wait for the timer to finish */
     }
-    timer0->tcnt = 0;
+    timer0_reg->tcnt = 0;
 }
 
 /*
@@ -111,7 +111,7 @@ void Delay_ms(uint32_t delay_ms)
 */
 void Reset_timer()
 {
-    timer0->tcnt = 0;
+    timer0_reg->tcnt = 0;
     overflow_ticks = (uint32_t)0;
 }
 
@@ -126,5 +126,5 @@ void Reset_timer()
 */
 void Get_time_us(uint32_t* time)
 {
-    *time = ((overflow_ticks*TOTAL_REG_TICKS) + (uint32_t)timer0->tcnt)*timerPerTick_us;
+    *time = ((overflow_ticks*TOTAL_REG_TICKS) + (uint32_t)timer0_reg->tcnt)*timerPerTick_us;
 }

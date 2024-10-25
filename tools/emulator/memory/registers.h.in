@@ -2,6 +2,46 @@
 #define __REGISTERS_H__
 
 #include <stdint.h>
+/************************************************/
+/* Data types */
+/************************************************/
+/* Data type representing the required registers to handle the port pins */
+typedef struct 
+{
+    volatile uint8_t pin;
+    volatile uint8_t ddr;
+    volatile uint8_t port;
+}gpio;
+
+/*Datatype to hold the timer registers */
+typedef struct 
+{
+    volatile uint8_t tccra;
+    volatile uint8_t tccrb;
+    volatile uint8_t tcnt;
+    volatile uint8_t ocra;
+    volatile uint8_t ocrb;
+} timer_registers;
+/************************************************/
+/* Global variables */
+/************************************************/
+#cmakedefine TARGET_EMULATOR
+#ifdef TARGET_EMULATOR
+    extern uint16_t eear;
+    extern uint8_t eedr;
+    extern uint8_t eecr;
+    extern uint8_t tifr0;
+    extern uint8_t tifr1;
+    extern uint8_t tifr2;
+    extern uint8_t admux;
+
+    extern timer_registers timer0;
+    extern timer_registers timer2;
+
+    extern gpio portb;
+    extern gpio portc;
+    extern gpio portd;
+#endif
 
 /***************************************/
 /* EEPROM memory registers */
@@ -28,25 +68,6 @@
 #define PORTD ${PORTD}
 #define ADMUX ${ADMUX}
 
-/************************************************/
-/* Data types */
-/************************************************/
-/* Data type representing the required registers to handle the port pins */
-typedef struct 
-{
-    volatile uint8_t pin;
-    volatile uint8_t ddr;
-    volatile uint8_t port;
-}gpio;
 
-/*Datatype to hold the timer registers */
-typedef struct 
-{
-    volatile uint8_t tccra;
-    volatile uint8_t tccrb;
-    volatile uint8_t tcnt;
-    volatile uint8_t ocra;
-    volatile uint8_t ocrb;
-} timer_registers;
 
-#endif
+#endif /* For __REGISTERS_H__ */

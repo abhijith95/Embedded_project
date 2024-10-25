@@ -5,7 +5,7 @@ if (${BUILD_TARGET} MATCHES "MCU")
     include(arduino)
 endif()
 
-project(embedded_proj LANGUAGES C)
+project(embedded_proj LANGUAGES C CXX)
 set(OUTPUT_TARGET "target")
 set(FINAL_TRGT_DIR ${CMAKE_CURRENT_BINARY_DIR}/target)
 
@@ -19,14 +19,18 @@ file(MAKE_DIRECTORY ${FINAL_TRGT_DIR})
 
 # trigger the memory map
 add_subdirectory(${CMAKE_SOURCE_DIR}/tools/emulator/memory)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/registers)
 
 # trigger the compilation of the application and library
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/lib)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/appl)
 
 if (${BUILD_TARGET} MATCHES "EMULATOR")
-    add_library(${OUTPUT_TARGET} SHARED ${CMAKE_CURRENT_BINARY_DIR}/dummy.c)
+    add_library(${OUTPUT_TARGET} SHARED ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board/board.cpp)
+    target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_SOURCE_DIR}/src/include)
+    target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board)
     target_link_libraries(${OUTPUT_TARGET} PRIVATE APPL)
+    target_link_libraries(${OUTPUT_TARGET} PRIVATE REGS)
     set(FINAL_TARGET_FILE ${CMAKE_CURRENT_BINARY_DIR}/Debug/${OUTPUT_TARGET}.dll)
 
 elseif(${BUILD_TARGET} MATCHES "MCU")
@@ -49,16 +53,17 @@ elseif(${BUILD_TARGET} MATCHES "MCU")
         COMMAND ${CMAKE_OBJCOPY} -O ihex -j .text -j .data ${FINAL_EXE_FILE} ${FINAL_TARGET_FILE}
         COMMENT "Converting .elf file to .hex"
     )
+    
+    # finally copy the target file and put it into the target directory
+    add_custom_command(
+        TARGET ${OUTPUT_TARGET}
+        POST_BUILD
+        COMMAND mv ${FINAL_TARGET_FILE} ${FINAL_TRGT_DIR}
+        COMMENT "We move the target file to a new directory for easy accessibility"
+    )
 
 else()
     # throw an error since the target specified is not valid anymore
     message(FATAL_ERROR "Cannot find the specified build target. Aborting the build.")
 endif()
 
-# finally copy the target file and put it into the target directory
-add_custom_command(
-    TARGET ${OUTPUT_TARGET}
-    POST_BUILD
-    COMMAND mv ${FINAL_TARGET_FILE} ${FINAL_TRGT_DIR}
-    COMMENT "We move the target file to a new directory for easy accessibility"
-)
