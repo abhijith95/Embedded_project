@@ -17,27 +17,33 @@ endif()
 # create directory to put in the final target file
 file(MAKE_DIRECTORY ${FINAL_TRGT_DIR})
 
-# trigger the memory map
-add_subdirectory(${CMAKE_SOURCE_DIR}/tools/emulator/memory)
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/registers)
+function(build_libs)
+    # trigger the memory map
+    add_subdirectory(${CMAKE_SOURCE_DIR}/tools/emulator/memory)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/src/registers)
 
-# trigger the compilation of the application and library
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/lib)
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/appl)
+    # trigger the compilation of the application and library
+    add_subdirectory(${CMAKE_SOURCE_DIR}/src/lib)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/src/appl)
+endfunction()
 
 if (${BUILD_TARGET} MATCHES "EMULATOR")
     add_library(${OUTPUT_TARGET} SHARED ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board/board.c)
+    target_compile_definitions(${OUTPUT_TARGET} PUBLIC EMU_TARGET=1)
+    build_libs()
     target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_SOURCE_DIR}/src/include)
     target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board)
     target_link_libraries(${OUTPUT_TARGET} PRIVATE APPL)
     target_link_libraries(${OUTPUT_TARGET} PRIVATE REGS)
     set(FINAL_TARGET_FILE ${CMAKE_CURRENT_BINARY_DIR}/Debug/${OUTPUT_TARGET}.dll)
-
-elseif(${BUILD_TARGET} MATCHES "MCU")
+    
+    elseif(${BUILD_TARGET} MATCHES "MCU")
     # put the code to create .ihex file for flashing mcu
     set(FINAL_EXE_FILE ${CMAKE_CURRENT_BINARY_DIR}/final_exec.elf)
     set(FINAL_TARGET_FILE ${CMAKE_CURRENT_BINARY_DIR}/final_exec.hex)
     add_executable(${OUTPUT_TARGET} ${CMAKE_CURRENT_BINARY_DIR}/dummy.c)
+    target_compile_definitions(${OUTPUT_TARGET} PUBLIC MCU_TARGET=1)
+    build_libs()
     # Check https://stackoverflow.com/questions/21735624/c-application-linking-failing-with-undefined-reference-to-mulhi3
     # for the reason to add a new library path
     set_target_properties(${OUTPUT_TARGET} PROPERTIES

@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "registers.h"
+#include "dllExport.h"
 
 /************************************************/
 /* Data types */
@@ -19,7 +20,7 @@ typedef enum
     PINB5,
     PINB6,
     PINB7
-} PINB;
+} DLLEXPORT PINB;
 
 /* List of available pins on PORT C */
 typedef enum
@@ -31,7 +32,7 @@ typedef enum
     PINC4,
     PINC5,
     PINC6
-} PINC;
+} DLLEXPORT PINC;
 
 /* List of available pins on PORT D */
 typedef enum
@@ -44,21 +45,21 @@ typedef enum
     PIND5,
     PIND6,
     PIND7
-} PIND;
+} DLLEXPORT PIND;
 
 /* Enum describing the pin type */
 typedef enum
 {
     INPUT = 0,
     OUTPUT
-}PIN_CONFIG;
+} DLLEXPORT PIN_CONFIG;
 
 /* Enum describing the digital pin value*/
 typedef enum
 {
     PIN_LOW = 0,
     PIN_HIGH
-}PIN_VALUE;
+} DLLEXPORT PIN_VALUE;
 
 /* Reference voltage source for analog pins */
 typedef enum
@@ -66,13 +67,13 @@ typedef enum
     EXTERNAL_REF = 0,
     AVCC = 1,
     INTERNAL_11V = 3
-}ANALOG_VREFS;
+} DLLEXPORT ANALOG_VREFS;
 
 /* Function prototypes */
 
-void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config);
-PIN_VALUE Read_pin(gpio* port, uint8_t pin);
-void Write_pin(gpio* port, uint8_t pin, PIN_VALUE value);
-void Configure_analogPins(ANALOG_VREFS vref_source, PINC pin);
+DLLEXPORT void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config);
+DLLEXPORT PIN_VALUE Read_pin(gpio* port, uint8_t pin);
+DLLEXPORT void Write_pin(gpio* port, uint8_t pin, PIN_VALUE value);
+DLLEXPORT void Configure_analogPins(ANALOG_VREFS vref_source, PINC pin);
 
 #endif

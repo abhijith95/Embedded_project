@@ -2,6 +2,7 @@
 #define __TIMER__
 #include <stdint.h>
 #include "registers.h"
+#include "dllExport.h"
 
 /************************************************/
 /* Data types */
@@ -14,12 +15,12 @@ typedef enum
     PRESCALE_64,
     PRESCALE_256,
     PRESCALE_1024
-}clock_prescale;
+} DLLEXPORT clock_prescale;
 
-void Configure_timers(clock_prescale prescale);
-void Delay_us(uint32_t delay_us);
-void Delay_ms(uint32_t delay_ms);
-void Reset_timer(void);
-void Get_time_us(uint32_t* time);
+DLLEXPORT void Configure_timers(clock_prescale prescale);
+DLLEXPORT void Delay_us(uint32_t delay_us);
+DLLEXPORT void Delay_ms(uint32_t delay_ms);
+DLLEXPORT void Reset_timer(void);
+DLLEXPORT void Get_time_us(uint32_t* time);
 
 #endif
