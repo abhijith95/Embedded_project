@@ -26,7 +26,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/src/lib)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/appl)
 
 if (${BUILD_TARGET} MATCHES "EMULATOR")
-    add_library(${OUTPUT_TARGET} SHARED ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board/board.cpp)
+    add_library(${OUTPUT_TARGET} SHARED ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board/board.c)
     target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_SOURCE_DIR}/src/include)
     target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board)
     target_link_libraries(${OUTPUT_TARGET} PRIVATE APPL)
