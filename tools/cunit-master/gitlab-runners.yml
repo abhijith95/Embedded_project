@@ -1,0 +1,13 @@
+# runner tags for gitlab saas (ie. gitlab premium)
+.docker-linux-job:
+  tags:
+    - saas-linux-medium-amd64
+
+.macos-job:
+  tags:
+    - saas-macos-medium-m1
+  image: macos-14-xcode-15
+  before_script:
+    - brew update
+    - brew install cmake
+    - python3 -m pip install junit2html

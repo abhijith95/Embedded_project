@@ -1,0 +1,16 @@
+*.o
+*.exe
+*.so
+*.a
+*.dll
+*.xml
+*.html
+.idea/
+cmake-build-*/
+build-*/
+CUnit-Memory-Dump.xml
+html/
+latex/
+bld/
+packages/
+docs/
