@@ -5,3 +5,5 @@ eeprom.hex
 src/lib/memory/registers.h
 src/include/registers.h
 tools/emulator/memory/registers.h
+test/out/
+test/blinkled/CMakePresets.json

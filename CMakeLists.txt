@@ -28,21 +28,21 @@ function(build_libs)
 endfunction()
 
 if (${BUILD_TARGET} MATCHES "EMULATOR")
+    add_compile_definitions(EMU_TARGET) 
     add_library(${OUTPUT_TARGET} SHARED ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board/board.c)
-    target_compile_definitions(${OUTPUT_TARGET} PUBLIC EMU_TARGET=1)
     build_libs()
     target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_SOURCE_DIR}/src/include)
     target_include_directories(${OUTPUT_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tools/emulator/board)
-    target_link_libraries(${OUTPUT_TARGET} PRIVATE APPL)
-    target_link_libraries(${OUTPUT_TARGET} PRIVATE REGS)
+    target_link_libraries(${OUTPUT_TARGET} PUBLIC APPL)
+    target_link_libraries(${OUTPUT_TARGET} PUBLIC REGS)
     set(FINAL_TARGET_FILE ${CMAKE_CURRENT_BINARY_DIR}/Debug/${OUTPUT_TARGET}.dll)
     
     elseif(${BUILD_TARGET} MATCHES "MCU")
+    add_compile_definitions(MCU_TARGET)
     # put the code to create .ihex file for flashing mcu
     set(FINAL_EXE_FILE ${CMAKE_CURRENT_BINARY_DIR}/final_exec.elf)
     set(FINAL_TARGET_FILE ${CMAKE_CURRENT_BINARY_DIR}/final_exec.hex)
     add_executable(${OUTPUT_TARGET} ${CMAKE_CURRENT_BINARY_DIR}/dummy.c)
-    target_compile_definitions(${OUTPUT_TARGET} PUBLIC MCU_TARGET=1)
     build_libs()
     # Check https://stackoverflow.com/questions/21735624/c-application-linking-failing-with-undefined-reference-to-mulhi3
     # for the reason to add a new library path
