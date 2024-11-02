@@ -3,8 +3,10 @@
 
 #ifdef EMU_TARGET
     #define DLLEXPORT __declspec(dllexport)
-#else
+#elif MCU_TARGET
     #define DLLEXPORT
+#else
+    #define DLLEXPORT __declspec(dllimport)
 #endif
 
 #endif

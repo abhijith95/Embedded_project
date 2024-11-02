@@ -1,22 +1,42 @@
 #include "board.h"
 #include "pin.h"
+#include "timer.h"
+#include <math.h>
 #include <stdio.h>
 #include "CUnit/Basic.h"
 
-Board arduino_board;
+#define LED_DELAY_US (uint32_t)1000000
+
+uint8_t check_pin_high(void)
+{
+    return((uint8_t) (Read_pin(arduino_board.portb_reg, PINB5) == PIN_HIGH));
+}
+
+uint8_t check_pin_low(void)
+{
+    return((uint8_t) (Read_pin(arduino_board.portb_reg, PINB5) == PIN_LOW));
+}
 
 void test_led_blink()
 {
+    uint64_t time = 0;
     /* Tick for little bit to get the LED high in the beginning */
-    Tick((uint32_t)4, &arduino_board);
+    (void)TickUntil(100, check_pin_high);
     CU_ASSERT(Read_pin(arduino_board.portb_reg, PINB5) == PIN_HIGH);
-    Tick((uint32_t)1000000, &arduino_board);
+    Reset_timer();
+    uint64_t t2 = TickWhile((LED_DELAY_US - 500000), check_pin_high);
+    time = TickUntil(600000, check_pin_low);
+    CU_ASSERT_DOUBLE_EQUAL((time + t2), LED_DELAY_US, 1000);
     CU_ASSERT(Read_pin(arduino_board.portb_reg, PINB5) == PIN_LOW);
+    Reset_timer();
+    t2 = TickWhile((LED_DELAY_US - 500000), check_pin_low);
+    time = TickUntil(LED_DELAY_US, check_pin_high);
+    CU_ASSERT_DOUBLE_EQUAL((time + t2), LED_DELAY_US, 1000);
 }
 
 int init_suite(void) 
 { 
-    Board_init(&arduino_board);
+    Board_init();
     return 0; 
 }
 int clean_suite(void) { return 0; }
