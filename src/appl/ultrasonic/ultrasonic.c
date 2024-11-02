@@ -32,11 +32,14 @@ void ultrasonic_main()
     {
         case SEND_TRIG:
             Write_pin(PORTD, (uint8_t)PIND2, PIN_HIGH);
-            Delay_us(TRIG_DELAY_US);
-            Write_pin(PORTD, (uint8_t)PIND2, PIN_LOW);
-            time = 0U;
-            state = WAIT_FOR_ECHO;
-            Reset_timer();
+            if(Time_elapsed(TRIG_DELAY_US) == 1)
+            {
+                Write_pin(PORTD, (uint8_t)PIND2, PIN_LOW);
+                time = 0U;
+                state = WAIT_FOR_ECHO;
+                Reset_timer();
+            }
+            else { /* Stay in the current state */}
             break;
         
         case WAIT_FOR_ECHO:

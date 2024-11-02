@@ -2,6 +2,7 @@
 #include "timer.h"
 
 #define TOTAL_REG_TICKS 256U
+static timer time = {0U, 0U}; 
 uint8_t timerPerTick_us = (uint8_t)0;
 uint32_t overflow_ticks = (uint32_t)0;
 timer_registers* timer0_reg = TIMER0;
@@ -32,17 +33,17 @@ void Configure_timers(clock_prescale prescale)
             timerPerTick_us = (uint8_t)0.5;
             break;
         case PRESCALE_64:
-            timerPerTick_us = (uint8_t)2;
+            timerPerTick_us = (uint8_t)4;
             break;
         case PRESCALE_256:
-            timerPerTick_us = (uint8_t)8;
+            timerPerTick_us = (uint8_t)16;
             break;
         case PRESCALE_1024:
-            timerPerTick_us = (uint8_t)32;
+            timerPerTick_us = (uint8_t)64;
             break;
         case DISABLE_COUNT:
         default:
-            timerPerTick_us = (uint8_t)0;
+            timerPerTick_us = (uint8_t)1;
             break;
     }
 }
@@ -113,6 +114,8 @@ void Reset_timer()
 {
     timer0_reg->tcnt = 0;
     overflow_ticks = (uint32_t)0;
+    time.overflow_count = 0;
+    time.total_ticks = 0;
 }
 
 /*
@@ -127,4 +130,31 @@ void Reset_timer()
 void Get_time_us(uint32_t* time)
 {
     *time = ((overflow_ticks*TOTAL_REG_TICKS) + (uint32_t)timer0_reg->tcnt)*timerPerTick_us;
+}
+
+uint8_t Time_elapsed(uint32_t time_us)
+{
+    /* Divide the delay into number of overflows and ticks*/
+    uint8_t time_elapsed_B = (uint8_t)0;
+    uint32_t total_overflow = (uint32_t)((time_us/timerPerTick_us)/TOTAL_REG_TICKS);
+    uint8_t total_remainder_ticks = (uint8_t)((time_us/timerPerTick_us)%TOTAL_REG_TICKS);
+
+    time.total_ticks = timer0_reg->tcnt;
+    if(*TIFR0)
+    {
+        time.overflow_count+=(uint32_t)1;
+        *TIFR0 |= (1 << 0);
+    }
+    else
+    {
+        /* Keep ticking */
+    }
+
+    if((time.overflow_count >= total_overflow) &&
+        (time.total_ticks >= total_remainder_ticks))
+    {
+        time_elapsed_B = (uint8_t)1;
+    }
+
+    return time_elapsed_B;
 }
