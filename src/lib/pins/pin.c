@@ -16,15 +16,15 @@
 */
 void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config)
 {
-    port->ddr |= (((uint8_t) pin_config) << pin);
-    if(pin_config == INPUT)
+    if (pin_config == OUTPUT)
     {
-        /* This is to activate the pull-up resistor */
-        port->port |= (((uint8_t) 1) << pin);
+        port->ddr |= (1 << pin);
     }
     else
     {
-        /* do nothing */
+        port->ddr &= ~(1 << pin);
+        /* This is to activate the pull-up resistor */
+        port->port |= (((uint8_t) 1) << pin);
     }
 }
 
@@ -42,8 +42,7 @@ void Configure_pinPort(gpio *port, uint8_t pin, PIN_CONFIG pin_config)
 */
 PIN_VALUE Read_pin(gpio* port, uint8_t pin)
 {
-    uint8_t mask = ((uint8_t) 1 << pin);
-    uint8_t pin_value = (port->pin & mask) >> pin;
+    uint8_t pin_value = (port->pin >> pin) & 1;
     return (PIN_VALUE) pin_value;
 }
 
@@ -62,7 +61,21 @@ PIN_VALUE Read_pin(gpio* port, uint8_t pin)
 */
 void Write_pin(gpio* port, uint8_t pin, PIN_VALUE value)
 {
-    port->pin |= (((uint8_t) value) << pin);
+    if (value == PIN_HIGH)
+    {
+        port->pin |= (1 << pin);
+        /* The port is also set to drive the pin to high, it is a digital pin concept */
+        port->port |= (1 << pin);
+    }
+    else if (value == PIN_LOW)
+    {
+        port->pin &= ~(1 << pin);
+        port->port &= ~(1 << pin);
+    }
+    else
+    {
+        /* Invalid pin value dont do anything */
+    }
 }
 
 /*

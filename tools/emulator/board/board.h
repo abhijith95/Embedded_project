@@ -10,6 +10,7 @@ typedef struct
 {
     uint8_t board_init;
     uint64_t time;
+    uint16_t prescale;
     timer_registers* timer0_reg;
     timer_registers* timer2_reg;
     gpio* portb_reg;
@@ -24,6 +25,7 @@ typedef struct
     uint8_t* admux_reg;
 } __declspec(dllexport) Board;
 
+void Set_prescale(Board *arduino_board);
 __declspec(dllexport) void Board_init(Board* arduino_board);
 __declspec(dllexport) void Tick(uint32_t time_us, Board* arduino_board);  /* Function that will run the board for a given time */
 #endif

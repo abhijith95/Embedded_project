@@ -6,10 +6,12 @@
 Board arduino_board;
 
 void test_led_blink()
-{    
-    CU_ASSERT(Read_pin(&arduino_board.portb_reg->port, PINB5) == PIN_HIGH);
+{
+    /* Tick for little bit to get the LED high in the beginning */
+    Tick((uint32_t)4, &arduino_board);
+    CU_ASSERT(Read_pin(arduino_board.portb_reg, PINB5) == PIN_HIGH);
     Tick((uint32_t)1000000, &arduino_board);
-    CU_ASSERT(Read_pin(&arduino_board.portb_reg->port, PINB5) == PIN_LOW);
+    CU_ASSERT(Read_pin(arduino_board.portb_reg, PINB5) == PIN_LOW);
 }
 
 int init_suite(void) 
